@@ -100,8 +100,36 @@ namespace DatToWiki {
         }
 
         private void ConvertHechizos() {
-            // TODO: Queda pendiente
-            txtResultado.Text = "Proximamente...";
+            string resultado = "{| class='wikitable'" + Environment.NewLine;
+
+            //Creamos el objeto
+            IniParser parser = new IniParser();
+
+            //Cargamos el archivo
+            parser.Load(RUTADATS + "hechizos.dat");
+
+            //Leemos el total de objetos
+            int numSpells = int.Parse(parser.GetValue("INIT", "NumeroHechizos"));
+
+            if (numSpells > 0) {
+
+                // Preparamos la cabecera de la tabla
+                resultado += "|-" + Environment.NewLine;
+                resultado += "!Hechizo !! Palabras Mágicas !! Efecto !! Maná !! Energía !! Skills en Magia" + Environment.NewLine;
+                resultado += "|-" + Environment.NewLine;
+
+                for (int i = 1; i <= numSpells; i++) {
+
+                    resultado += parser.GetValue("HECHIZO" + i, "Nombre") + " || " + parser.GetValue("HECHIZO" + i, "PalabrasMagicas") + " || " + parser.GetValue("HECHIZO" + i, "Desc") + " || " + parser.GetValue("HECHIZO" + i, "ManaRequerido") + " || " + parser.GetValue("HECHIZO" + i, "StaRequerido") + " || " + parser.GetValue("HECHIZO" + i, "MinSkill");
+                    resultado += Environment.NewLine + "|-" + Environment.NewLine;
+
+                }
+
+                resultado += "|}";
+                txtResultado.Text = resultado;
+
+            }
+
         }
 
         private void ConvertNPCs() {
