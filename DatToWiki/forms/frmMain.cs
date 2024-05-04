@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace DatToWiki {
     public partial class frmMain : Form {
 
-        const string RUTADATS = "F:\\Proyectos\\WinterAO Resurrection\\Server\\Dat\\";
+        string rutaDats;
         const int NUMCLASES = 12;
 
         public frmMain() {
@@ -20,6 +22,10 @@ namespace DatToWiki {
         }
 
         private void button1_Click(object sender, EventArgs e) {
+
+            if (txtRutaDats.Text.Length < 1) {
+                BuscarCarpeta();
+            }
 
             if (radioButton6.Checked) { //Cascos
                 this.ConvertObj(17);
@@ -44,13 +50,20 @@ namespace DatToWiki {
         private void ConvertObj(int objType) {
             string clase;
             int tipoObj;
+
+            string rutaArchivo = rutaDats + "\\obj.dat";
+
+            if (!File.Exists(rutaArchivo)) {
+                txtResultado.Text = "Nose ha encontrado el archivo de obj.dat";
+            }
+
             string resultado = "{| class='wikitable'" + Environment.NewLine;
 
             //Creamos el objeto
             IniParser parser = new IniParser();
 
             //Cargamos el archivo
-            parser.Load(RUTADATS + "obj.dat");
+            parser.Load(rutaArchivo);
 
             //Leemos el total de objetos
             int numOBJs = int.Parse(parser.GetValue("INIT", "NumOBJs"));
@@ -100,13 +113,20 @@ namespace DatToWiki {
         }
 
         private void ConvertHechizos() {
+
+            string rutaArchivo = rutaDats + "\\hechizos.dat";
+
+            if (!File.Exists(rutaArchivo)) {
+                txtResultado.Text = "Nose ha encontrado el archivo de hechizos.dat";
+            }
+
             string resultado = "{| class='wikitable'" + Environment.NewLine;
 
             //Creamos el objeto
             IniParser parser = new IniParser();
 
             //Cargamos el archivo
-            parser.Load(RUTADATS + "hechizos.dat");
+            parser.Load(rutaArchivo);
 
             //Leemos el total de objetos
             int numSpells = int.Parse(parser.GetValue("INIT", "NumeroHechizos"));
@@ -134,13 +154,20 @@ namespace DatToWiki {
 
         private void ConvertNPCs() {
             int tipoNPC;
+
+            string rutaArchivo = rutaDats + "\\npcs.dat";
+
+            if (!File.Exists(rutaArchivo)) {
+                txtResultado.Text = "Nose ha encontrado el archivo de npcs.dat";
+            }
+
             string resultado = "{| class='wikitable'" + Environment.NewLine;
 
             //Creamos el objeto
             IniParser parser = new IniParser();
 
             //Cargamos el archivo
-            parser.Load(RUTADATS + "npcs.dat");
+            parser.Load(rutaArchivo);
 
             //Leemos el total de objetos
             int numNPCs = int.Parse(parser.GetValue("INIT", "NumNPCs"));
@@ -180,6 +207,38 @@ namespace DatToWiki {
                 txtResultado.Text = resultado;
 
             }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e) {
+
+        }
+
+        private void txtRutaDats_TextChanged(object sender, EventArgs e) {
+            rutaDats = txtRutaDats.Text;
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e) {
+            BuscarCarpeta();
+        }
+
+        private void BuscarCarpeta() {
+            // Crear una instancia del diálogo de selección de carpetas
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+
+            // Configurar las propiedades del diálogo (opcional)
+            folderBrowserDialog.Description = "Seleccione la carpeta que desea utilizar";
+            folderBrowserDialog.ShowNewFolderButton = true;
+
+            // Mostrar el diálogo y obtener la ruta de la carpeta seleccionada
+            DialogResult result = folderBrowserDialog.ShowDialog();
+            if (result == DialogResult.OK) {
+                // Mostrar la ruta de la carpeta seleccionada en el TextBox
+                txtRutaDats.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void frmMain_Load(object sender, EventArgs e) {
+
         }
     }
 }

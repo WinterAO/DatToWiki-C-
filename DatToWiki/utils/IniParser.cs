@@ -22,12 +22,14 @@ public class IniParser {
             if (line.StartsWith("[") && line.EndsWith("]")) {
                 currentSection = line.Substring(1, line.Length - 2);
                 sections[currentSection] = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
             } else if (currentSection != null) {
                 int separatorIndex = line.IndexOf("=");
                 if (separatorIndex >= 0) {
                     string key = line.Substring(0, separatorIndex).Trim();
                     string value = line.Substring(separatorIndex + 1).Trim();
                     sections[currentSection][key] = value;
+
                 }
             }
         }

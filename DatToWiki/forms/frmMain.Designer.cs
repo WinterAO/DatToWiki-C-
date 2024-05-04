@@ -32,12 +32,14 @@
             radioButton2 = new RadioButton();
             radioButton5 = new RadioButton();
             radioButton6 = new RadioButton();
+            txtRutaDats = new TextBox();
+            btnBuscar = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // btnConvertir
             // 
-            btnConvertir.Location = new Point(275, 468);
+            btnConvertir.Location = new Point(275, 498);
             btnConvertir.Name = "btnConvertir";
             btnConvertir.Size = new Size(219, 32);
             btnConvertir.TabIndex = 0;
@@ -61,12 +63,13 @@
             groupBox1.Controls.Add(radioButton2);
             groupBox1.Controls.Add(radioButton5);
             groupBox1.Controls.Add(radioButton6);
-            groupBox1.Location = new Point(12, 405);
+            groupBox1.Location = new Point(12, 438);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(776, 54);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Tipo de datos a convertir";
+            groupBox1.Enter += groupBox1_Enter;
             // 
             // radioButton3
             // 
@@ -130,11 +133,31 @@
             radioButton6.Text = "Cascos";
             radioButton6.UseVisualStyleBackColor = true;
             // 
+            // txtRutaDats
+            // 
+            txtRutaDats.Location = new Point(12, 405);
+            txtRutaDats.Multiline = true;
+            txtRutaDats.Name = "txtRutaDats";
+            txtRutaDats.Size = new Size(626, 27);
+            txtRutaDats.TabIndex = 3;
+            txtRutaDats.TextChanged += txtRutaDats_TextChanged;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.Location = new Point(644, 409);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(144, 23);
+            btnBuscar.TabIndex = 0;
+            btnBuscar.Text = "Buscar dats";
+            btnBuscar.Click += btnBuscar_Click;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 512);
+            ClientSize = new Size(800, 536);
+            Controls.Add(btnBuscar);
+            Controls.Add(txtRutaDats);
             Controls.Add(groupBox1);
             Controls.Add(txtResultado);
             Controls.Add(btnConvertir);
@@ -142,6 +165,7 @@
             MinimizeBox = false;
             Name = "frmMain";
             Text = "DatToWiki";
+            Load += frmMain_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -159,5 +183,7 @@
         private RadioButton radioButton4;
         private RadioButton radioButton1;
         private RadioButton radioButton2;
+        private TextBox txtRutaDats;
+        private Button btnBuscar;
     }
 }
